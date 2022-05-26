@@ -1,34 +1,34 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        int[] array1 = new int[10];
-        int[] array2 = new int[10];
-        int[] array3 = new int[10];
-        genValue(array1);
-        genValue(array2);
-        genValue(array3);
+        int size = 10;
+        int countShop = 3;
+        String[] nameShop = new String[]{"Rok", "Boss", "Pum"};
 
         Accaunt accaunt = new Accaunt();
-        Thread shop1 = new Shop("Rok", array1, accaunt);
-        Thread shop2 = new Shop("Boss", array2, accaunt);
-        Thread shop3 = new Shop("Pum", array3, accaunt);
-        shop1.start();
-        shop2.start();
-        shop3.start();
-
-        shop1.join();
-        shop2.join();
-        shop3.join();
+        List<Thread> shops = new ArrayList();
+        for (int i = 0; i < countShop; i++){
+            Thread shop = new Shop(nameShop[i], genValue(size), accaunt);
+            shops.add(shop);
+            shop.start();
+        }
+        for (int i = 0; i < shops.size(); i++){
+            shops.get(i).join();
+        }
         System.out.println("Общее поступление в налоговую составило " + accaunt.getAccount());
     }
 
 
 
-    public static void genValue(int[] array){
+    public static int[] genValue(int size){
         Random random = new Random();
+        int[] array = new int[size];
         for (int i = 0; i < array.length; i++) {
             array[i] = random.nextInt(5000);
         }
+        return array;
     }
 }

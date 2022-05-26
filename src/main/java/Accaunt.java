@@ -1,13 +1,14 @@
-import java.util.concurrent.atomic.AtomicLong;
+
+import java.util.concurrent.atomic.LongAdder;
 
 public class Accaunt {
-    private AtomicLong account = new AtomicLong(0);
+    private LongAdder account = new LongAdder();
 
     public void transfer(long transh){
-        account.addAndGet(transh);
+        account.add(transh);
     }
 
     public long getAccount(){
-        return account.get();
+        return account.sum();
     }
 }
